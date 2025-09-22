@@ -1,14 +1,46 @@
+# Flask for web framework
 Flask==2.3.3
+
+# PyTorch and related packages
 torch==2.2.0
 torchvision==0.19.1
+
+# Ultralytics YOLO models (v5/v8 support)
 ultralytics==8.0.152
+
+# OpenCV for image/video processing
 opencv-python==4.8.1.78
 numpy==1.26.5
+
+# MySQL connector
 pymysql==1.1.1
+
+# EasyOCR for license plate text recognition
 easyocr==1.6.2
+torchtext==0.19.1
+# deep_sort_realtime for multi-object tracking
 deep_sort_realtime==1.5.0
+
+# ffmpeg-python wrapper
 ffmpeg-python==0.2.0
+
+# HTTP requests
 requests==2.31.0
-webbrowser==0.0.8
+
+# Google Cloud Vision API for OCR (optional if you use Google OCR)
+google-cloud-vision==3.5.2
+
+# Environment variable management (optional)
+python-dotenv==1.0.1
+
+# Utilities for Real-ESRGAN super-resolution (optional)
+scipy==1.11.3
+tqdm==4.66.1
+basicsr==1.4.2
+realesrgan==0.3.0
+
+# Additional dependencies for PyTorch / EasyOCR
+opencv-contrib-python==4.8.1.78
+scikit-image==0.21.0
 
 
