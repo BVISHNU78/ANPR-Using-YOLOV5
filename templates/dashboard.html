@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 30px;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .camera-list {
+            flex: 2;
+        }
+
+        .camera-item {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .camera-actions a {
+            text-decoration: none;
+            color: #007BFF;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .camera-actions form {
+            display: inline;
+        }
+
+        .camera-actions button {
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .camera-actions button:hover {
+            background-color: #c82333;
+        }
+
+        .edit-mode input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .edit-mode button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-mode button:hover {
+            background-color: #218838;
+        }
+
+        .add-camera-form {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            margin-left: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .add-camera-form h3 {
+            margin-top: 0;
+        }
+
+        input[type="text"], input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function toggleEditMode(camName) {
+            document.getElementById('display-mode-' + camName).style.display = 'none';
+            document.getElementById('edit-mode-' + camName).style.display = 'block';
+        }
+
+        function exitEditMode(camName) {
+            document.getElementById('display-mode-' + camName).style.display = 'flex';
+            document.getElementById('edit-mode-' + camName).style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <h1>Available Cameras</h1>
+
+    <div class="dashboard-container">
+        <div class="camera-list">
+            {% for cam_name in cameras %}
+                <div class="camera-item">
+                    <!-- DISPLAY MODE -->
+                    <div id="display-mode-{{ cam_name }}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <strong>{{ cam_name }}</strong>
+                        <div class="camera-actions">
+                            <a href="{{ url_for('set_line', cam_name=cam_name) }}" style="color: orange;">Set Line</a>
+
+                            <a href="{{ url_for('camera', cam_name=cam_name) }}">View</a>
+                            <a href="{{ url_for('set_roi_ui', cam_name=cam_name) }}" style="color: orange;">Set ROI</a>
+
+                            <a href="{{ url_for('anpr_video', cam_name=cam_name) }}" style="color: green;"> ANPR </a>
+
+                            <a onclick="toggleEditMode('{{ cam_name }}')" style="color: #28a745;">Edit</a>
+                            <form action="{{ url_for('delete_camera') }}" method="POST" onsubmit="return confirm('Delete this camera?');">
+                                <input type="hidden" name="cam_name" value="{{ cam_name }}">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- EDIT MODE -->
+                    <div id="edit-mode-{{ cam_name }}" class="edit-mode" style="display: none;">
+                        <form action="{{ url_for('edit_camera') }}" method="POST">
+                            <input type="hidden" name="original_name" value="{{ cam_name }}">
+                            <label>New Camera Name:</label>
+                            <input type="text" name="new_name" value="{{ cam_name }}" required>
+                            <label>New RTSP URL:</label>
+                            <input type="url" name="new_url" value="{{ cameras[cam_name] }}" required>
+                            <div style="margin-top: 10px;">
+                                <button type="submit">Update</button>
+                                <button type="button" style="background-color: #6c757d; margin-left: 10px;" onclick="exitEditMode('{{ cam_name }}')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="add-camera-form">
+            <h3>Add New Camera</h3>
+            <form action="{{ url_for('add_camera') }}" method="POST">
+                <label for="cam_name">Camera Name:</label>
+                <input type="text" id="cam_name" name="cam_name" required>
+
+                <label for="cam_url">Camera RTSP URL:</label>
+                <input type="url" id="cam_url" name="cam_url" required>
+
+                <button type="submit">Add Camera</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

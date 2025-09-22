@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Streams</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .streams {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .stream-box {
+            background: #222;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .stream-box img {
+            width: 400px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>🚗 Live Vehicle Streams</h2>
+    <div class="streams">
+        {% for i in range(stream_count) %}
+        <div class="stream-box">
+            <h4>Stream {{ i+1 }}</h4>
+            <img src="{{ url_for('video', stream_id=i) }}" alt="Stream {{ i }}">
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

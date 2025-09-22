@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw ROI for {{ cam_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        #video-container {
+            position: relative;
+            display: inline-block;
+            border: 2px solid #333;
+        }
+        #video-feed {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        #roi-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: auto;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button#reset-btn {
+            background-color: #f44336;
+        }
+        button#reset-btn:hover {
+            background-color: #da190b;
+        }
+    </style>
+</head>
+<body>
+    <h2>Draw ROI for Camera: {{ cam_name }}</h2>
+    <div id="video-container">
+        <img id="video-feed" src="{{ url_for('video_feed', cam_name=cam_name) }}" alt="Video Stream">
+        <canvas id="roi-canvas"></canvas>
+    </div>
+    <br>
+    <button onclick="saveROI()">Save ROI</button>
+    <button id="reset-btn" onclick="clearROI()">Reset ROI</button>
+
+    <script>
+        const video = document.getElementById('video-feed');
+        const canvas = document.getElementById('roi-canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let startX, startY, endX, endY;
+
+        // Set canvas size to match video dimensions
+        function resizeCanvas() {
+            const rect = video.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+
+        // Wait for video to load and set canvas size
+        video.addEventListener('load', resizeCanvas);
+        window.addEventListener('resize', resizeCanvas);
+
+        // Mouse event handlers for drawing ROI
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+            isDrawing = true;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            endX = e.clientX - rect.left;
+            endY = e.clientY - rect.top;
+            drawRectangle();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
+
+        // Draw the ROI rectangle
+        function drawRectangle() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        }
+
+        // Save ROI coordinates to the backend
+        function saveROI() {
+            if (!startX || !endX || !startY || !endY) {
+                alert('Please draw an ROI first.');
+                return;
+            }
+
+            // Scale coordinates to match original video resolution
+            const videoWidth = video.naturalWidth || video.width;
+            const videoHeight = video.naturalHeight || video.height;
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+            const scaleX = videoWidth / canvasWidth;
+            const scaleY = videoHeight / canvasHeight;
+
+            const top_left = [Math.round(Math.min(startX, endX) * scaleX), Math.round(Math.min(startY, endY) * scaleY)];
+            const bottom_right = [Math.round(Math.max(startX, endX) * scaleX), Math.round(Math.max(startY, endY) * scaleY)];
+
+            const data = {
+                cam: '{{ cam_name }}',
+                top_left: top_left,
+                bottom_right: bottom_right
+            };
+
+            fetch('/set_roi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('ROI saved successfully!');
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas after saving
+                startX = startY = endX = endY = null; // Reset coordinates
+            })
+            .catch(error => {
+                console.error('Error saving ROI:', error);
+                alert('Failed to save ROI.');
+            });
+        }
+
+        // Clear the canvas and reset coordinates
+        function clearROI() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            startX = startY = endX = endY = null;
+        }
+
+        // Load existing ROI if available
+        window.addEventListener('load', () => {
+            fetch('/get_roi/{{ cam_name }}')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.top_left && data.bottom_right) {
+                        // Scale coordinates back to canvas size
+                        const videoWidth = video.naturalWidth || video.width;
+                        const videoHeight = video.naturalHeight || video.height;
+                        const canvasWidth = canvas.width;
+                        const canvasHeight = canvas.height;
+                        const scaleX = canvasWidth / videoWidth;
+                        const scaleY = canvasHeight / videoHeight;
+
+                        startX = data.top_left[0] * scaleX;
+                        startY = data.top_left[1] * scaleY;
+                        endX = data.bottom_right[0] * scaleX;
+                        endY = data.bottom_right[1] * scaleY;
+
+                        if (startX && endX && startY && endY) {
+                            drawRectangle();
+                        }
+                    }
+                })
+                .catch(error => console.error('Error loading ROI:', error));
+        });
+    </script>
+</body>
+</html>

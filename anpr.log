@@ -1,0 +1,90 @@
+INFO:__main__:PyTorch version: 2.7.1+cu118
+INFO:__main__:PyTorch version: 2.7.1+cu118
+INFO:__main__:CUDA available: True
+INFO:__main__:CUDA available: True
+INFO:__main__:GPU: NVIDIA GeForce RTX 3050 Ti Laptop GPU
+INFO:__main__:GPU: NVIDIA GeForce RTX 3050 Ti Laptop GPU
+INFO:deep_sort_realtime.embedder.embedder_pytorch:MobileNetV2 Embedder for Deep Sort initialised
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- gpu enabled: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- half precision: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- max batch size: 16
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- expects BGR: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:MobileNetV2 Embedder for Deep Sort initialised
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- gpu enabled: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- half precision: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- max batch size: 16
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- expects BGR: True
+INFO:deep_sort_realtime.deepsort_tracker:DeepSort Tracker initialised
+INFO:deep_sort_realtime.deepsort_tracker:- max age: 30
+INFO:deep_sort_realtime.deepsort_tracker:- appearance threshold: 0.2
+INFO:deep_sort_realtime.deepsort_tracker:- nms threshold: OFF
+INFO:deep_sort_realtime.deepsort_tracker:- max age: 30
+INFO:deep_sort_realtime.deepsort_tracker:- max num of appearance features: None
+INFO:deep_sort_realtime.deepsort_tracker:- appearance threshold: 0.2
+INFO:deep_sort_realtime.deepsort_tracker:- overriding track class : No
+INFO:deep_sort_realtime.deepsort_tracker:- nms threshold: OFF
+INFO:deep_sort_realtime.deepsort_tracker:- in-build embedder : Yes
+INFO:deep_sort_realtime.deepsort_tracker:- max num of appearance features: None
+INFO:deep_sort_realtime.deepsort_tracker:- polygon detections : No
+INFO:deep_sort_realtime.deepsort_tracker:- overriding track class : No
+INFO:deep_sort_realtime.deepsort_tracker:- today given : No
+INFO:deep_sort_realtime.deepsort_tracker:- in-build embedder : Yes
+INFO:deep_sort_realtime.deepsort_tracker:- polygon detections : No
+INFO:deep_sort_realtime.embedder.embedder_pytorch:MobileNetV2 Embedder for Deep Sort initialised
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- gpu enabled: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- half precision: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- max batch size: 16
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- expects BGR: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:MobileNetV2 Embedder for Deep Sort initialised
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- gpu enabled: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- half precision: True
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- max batch size: 16
+INFO:deep_sort_realtime.embedder.embedder_pytorch:- expects BGR: True
+INFO:deep_sort_realtime.deepsort_tracker:DeepSort Tracker initialised
+INFO:deep_sort_realtime.deepsort_tracker:- max age: 30
+INFO:deep_sort_realtime.deepsort_tracker:- appearance threshold: 0.2
+INFO:deep_sort_realtime.deepsort_tracker:- nms threshold: OFF
+INFO:deep_sort_realtime.deepsort_tracker:- max num of appearance features: None
+INFO:deep_sort_realtime.deepsort_tracker:- overriding track class : No
+INFO:deep_sort_realtime.deepsort_tracker:- today given : No
+INFO:deep_sort_realtime.deepsort_tracker:- in-build embedder : Yes
+INFO:deep_sort_realtime.deepsort_tracker:- polygon detections : No
+INFO:deep_sort_realtime.deepsort_tracker:DeepSort Tracker initialised
+INFO:deep_sort_realtime.deepsort_tracker:- max age: 30
+INFO:deep_sort_realtime.deepsort_tracker:- appearance threshold: 0.2
+INFO:deep_sort_realtime.deepsort_tracker:- nms threshold: OFF
+INFO:deep_sort_realtime.deepsort_tracker:- max num of appearance features: None
+INFO:deep_sort_realtime.deepsort_tracker:- overriding track class : No
+INFO:deep_sort_realtime.deepsort_tracker:- today given : No
+INFO:deep_sort_realtime.deepsort_tracker:- in-build embedder : Yes
+INFO:deep_sort_realtime.deepsort_tracker:- polygon detections : No
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2086
+ * Running on http://192.168.1.18:2086
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2086
+ * Running on http://192.168.1.18:2086
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:09] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:09] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:09] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:15] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:15] "[32mGET /index HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:15] "GET /dashboard HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:22] "[32mPOST / HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:23] "[32mGET /index HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:02:23] "GET /dashboard HTTP/1.1" 200 -
+INFO:__main__:[INFO] Background ANPR started for camera: verifocal
+ERROR:__main__:[ERROR] Failed to read frame from verifocal. Reconnecting...
+INFO:__main__:[INFO] Background ANPR started for camera: verifocal
+ERROR:__main__:[ERROR] Failed to read frame from verifocal. Reconnecting...
+ERROR:__main__:[ERROR] Failed to read frame from verifocal. Reconnecting...
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:03:12] "[32mPOST /add_camera HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:03:13] "GET /dashboard HTTP/1.1" 200 -
+INFO:__main__:[INFO] Background ANPR started for camera: verifocal
+ERROR:__main__:[ERROR] Failed to read frame from verifocal. Reconnecting...
+ERROR:__main__:[ERROR] Failed to read frame from verifocal. Reconnecting...
+INFO:werkzeug:127.0.0.1 - - [22/Sep/2025 11:03:43] "GET /anpr/outdoor HTTP/1.1" 200 -

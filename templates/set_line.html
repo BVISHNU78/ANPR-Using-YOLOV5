@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Line - {{ cam_name }}</title>
+    <style>
+        #video-container {
+            position: relative;
+            width: fit-content;
+        }
+        #stream {
+            display: block;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Set Line for Camera: {{ cam_name }}</h2>
+
+    <div id="video-container">
+        <img id="stream" src="{{ url_for('video', cam_name=cam_name) }}" onload="resizeCanvas()">
+        <canvas id="overlay"></canvas>
+    </div>
+
+    <button onclick="saveLine()">Save Line</button>
+
+    <script>
+        const canvas = document.getElementById('overlay');
+        const stream = document.getElementById('stream');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let startX, startY, endX, endY;
+
+        function resizeCanvas() {
+            canvas.width = stream.clientWidth;
+            canvas.height = stream.clientHeight;
+        }
+
+        stream.onload = resizeCanvas;
+        window.onresize = resizeCanvas;
+
+        canvas.addEventListener('mousedown', e => {
+            drawing = true;
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mousemove', e => {
+            if (!drawing) return;
+            const rect = canvas.getBoundingClientRect();
+            endX = e.clientX - rect.left;
+            endY = e.clientY - rect.top;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        function saveLine() {
+            if (startX === undefined || endX === undefined) {
+                alert("Please draw a line first!");
+                return;
+            }
+
+            fetch(`/save_line/{{ cam_name }}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    x1: Math.round(startX),
+                    y1: Math.round(startY),
+                    x2: Math.round(endX),
+                    y2: Math.round(endY)
+                })
+            }).then(res => {
+                if (res.ok) {
+                    alert('Line saved successfully!');
+                    window.location.href = "/dashboard";
+                } else {
+                    alert('Error saving line!');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

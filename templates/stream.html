@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ cam_name | capitalize }} Stream</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .stream-container {
+            position: relative;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .counters {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 640px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stream-window {
+            display: block;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Streaming Camera: {{ cam_name | capitalize }}</h2>
+
+    <div class="stream-container">
+        <div class="counters">
+            <span>IN: <span id="in-count">0</span></span>
+            <span>OUT: <span id="out-count">0</span></span>
+        </div>
+        <img class="stream-window" src="{{ url_for('video', cam_name=cam_name) }}" width="640" height="360">
+    </div>
+
+    <a class="back-link" href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+
+    <!-- Optional: Add JS to update counts dynamically if needed -->
+</body>
+</html>
