@@ -292,6 +292,8 @@ tld==0.13
 tokenizers==0.21.0
 toml==0.10.2
 tomlkit==0.13.2
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.7.1
 torch==2.7.1+cu118
 torchaudio==2.7.1+cu118
 torchvision==0.22.1+cu118
@@ -326,5 +328,6 @@ yapf==0.43.0
 yarl==1.18.3
 zipp==3.21.0
 zstandard==0.23.0
+
 
 
